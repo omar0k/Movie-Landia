@@ -36,7 +36,6 @@ document.getElementById("home-btn").addEventListener("click", () => {
 nextPage.addEventListener("click", () => {
   currentPage++;
   console.log(currentPage);
-  getMovies(api_URL, currentPage);
 });
 
 previousPage.addEventListener("click", () => {
@@ -53,15 +52,14 @@ nextPageSearch.addEventListener("click", () => {
   let search_url =
     baseUrl +
     `search/movie?api_key=${API_KEY}&language=en-US&page=1&include_adult=false&query=${search}`;
-  console.log("search url", search_url);
   getMovies(search_url, currentPage);
 });
 previousPageSearch.addEventListener("click", () => {
+  nextPageSearch.disabled = false;
   let search = document.getElementById("search-bar").value;
   let search_url =
     baseUrl +
     `search/movie?api_key=${API_KEY}&language=en-US&page=1&include_adult=false&query=${search}`;
-  console.log("search url", search_url);
   if (currentPage > 1) {
     currentPage--;
     getMovies(search_url, currentPage);
@@ -70,14 +68,15 @@ previousPageSearch.addEventListener("click", () => {
   }
 });
 function showMovies(data) {
+  console.log(currentPage);
   movieList.innerHTML = "";
-  if (data.length == 0) {
+  if (data.length === 0) {
     movieList.innerHTML = "<h1>No Movies Found</h1>";
+    nextPageSearch.disabled = true;
   }
   data.forEach((movie) => {
     const { id, title, name, vote_average, poster_path, overview } = movie;
     if (poster_path === null) {
-      console.log(name || title, id);
       return;
     }
     movieList.innerHTML += `
@@ -94,6 +93,8 @@ function showMovies(data) {
 
 //when the search button is clicked
 document.getElementById("search-btn").addEventListener("click", () => {
+  nextPageSearch.disabled = false;
+
   currentPage = 1;
   document.query;
   let search = document.getElementById("search-bar").value;
@@ -107,7 +108,6 @@ document.getElementById("search-btn").addEventListener("click", () => {
     let search_url =
       baseUrl +
       `search/movie?api_key=${API_KEY}&language=en-US&page=1&include_adult=false&query=${search}`;
-    console.log("search url", search_url);
     getMovies(search_url, currentPage);
   }
 });
@@ -117,11 +117,12 @@ document
   .addEventListener("keyup", function (event) {
     currentPage = 1;
     const searchTerm = event.target.value;
-    console.log(searchTerm);
     if (
       event.keyCode === 13 &&
       document.getElementById("search-bar").value != ""
     ) {
+      nextPageSearch.disabled = false;
+
       nextPage.style.display = "none";
       previousPage.style.display = "none";
       nextPageSearch.style.display = "inline";
@@ -143,5 +144,5 @@ function getColor(vote) {
     return "red";
   }
 }
-
+console.log(getMovies(api_URL, currentPage));
 getMovies(api_URL, currentPage);
