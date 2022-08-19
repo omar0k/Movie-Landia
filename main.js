@@ -22,9 +22,11 @@ function getMovies(url, currentPage) {
     .then((response) => response.json())
     .then((data) => {
       showMovies(data.results);
+      console.log(data.results);
     });
 }
 document.getElementById("home-btn").addEventListener("click", () => {
+  currentPage = 1;
   nextPageSearch.style.display = "none";
   previousPageSearch.style.display = "none";
   nextPage.style.display = "inline";
@@ -33,11 +35,18 @@ document.getElementById("home-btn").addEventListener("click", () => {
   getMovies(api_URL, currentPage);
   console.log("clicked");
 });
+function addDelay(btn, delay) {
+  setTimeout(() => {
+    btn.disabled = false;
+  }, delay);
+}
 nextPage.addEventListener("click", () => {
   currentPage++;
   console.log(currentPage);
+  getMovies(api_URL, currentPage);
+  nextPage.disabled = true;
+  addDelay(nextPage, 250);
 });
-
 previousPage.addEventListener("click", () => {
   if (currentPage > 1) {
     currentPage--;
@@ -45,8 +54,11 @@ previousPage.addEventListener("click", () => {
   } else {
     return;
   }
+  previousPage.disabled = true;
+  addDelay(previousPage, 250);
 });
 nextPageSearch.addEventListener("click", () => {
+  nextPageSearch.disabled = true;
   let search = document.getElementById("search-bar").value;
   currentPage++;
   let search_url =
@@ -66,6 +78,8 @@ previousPageSearch.addEventListener("click", () => {
   } else {
     return;
   }
+  previousPageSearch.disabled = true;
+  addDelay(previousPageSearch, 250);
 });
 function showMovies(data) {
   console.log(currentPage);
@@ -73,19 +87,27 @@ function showMovies(data) {
   if (data.length === 0) {
     movieList.innerHTML = "<h1>No Movies Found</h1>";
     nextPageSearch.disabled = true;
+    return;
   }
+  addDelay(nextPageSearch, 250);
   data.forEach((movie) => {
     const { id, title, name, vote_average, poster_path, overview } = movie;
     if (poster_path === null) {
+      console.log(title);
       return;
     }
     movieList.innerHTML += `
-    <div movie-info>
-        <h3 class='movie-title'>${name || title}</h3>
-        <h4>${id}</h4>
-        <img src="https://image.tmdb.org/t/p/w500/${poster_path}" alt="No Poster" onerror="this.src='/backupimage.jpg'"/>
-        <p>${overview}</p>
-        <span class="${getColor(vote_average)}">${vote_average}</span>
+    <div class="movie-info">
+    <img id="movie-img" src="https://image.tmdb.org/t/p/w500/${poster_path}" alt="No Poster" onerror="this.src='/backupimage.jpg'"/>
+        <div class='movie-title'>${name || title}
+        <span class="${getColor(vote_average)}">${
+      Math.round(vote_average * 100) / 100}
+      </span>
+      </div>
+    </div>
+        <div class="overview">
+        <h3>Overview</h3>
+        ${overview}
     </div>
     `;
   });
@@ -139,7 +161,7 @@ function getColor(vote) {
   if (vote >= 7) {
     return "green";
   } else if (vote >= 4) {
-    return "yellow";
+    return "orange";
   } else {
     return "red";
   }
