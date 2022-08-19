@@ -2,7 +2,9 @@
 //
 
 import API_KEY from "./config.js";
-console.log(API_KEY)
+
+
+
 let baseUrl = "https://api.themoviedb.org/3/";
 let movieList = document.getElementById("movie-list");
 let api_URL = baseUrl + "/trending/all/day?api_key=" + API_KEY;
