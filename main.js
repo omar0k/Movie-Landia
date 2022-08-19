@@ -1,7 +1,8 @@
 //Create 2 more buttons that appear once the search function is called/when user searches for a movie
 //
 
-import API_KEY from "./key.js";
+import API_KEY from "./config.js";
+console.log(API_KEY)
 let baseUrl = "https://api.themoviedb.org/3/";
 let movieList = document.getElementById("movie-list");
 let api_URL = baseUrl + "/trending/all/day?api_key=" + API_KEY;
