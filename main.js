@@ -1,5 +1,5 @@
-// import API_KEY from "./config.js";
-import API_KEY from "./key.js";
+import API_KEY from "./config.js";
+// import API_KEY from "./key.js";
 
 let baseUrl = "https://api.themoviedb.org/3/";
 let movieList = document.getElementById("movie-list");
