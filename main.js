@@ -1,5 +1,5 @@
-import API_KEY from "./config.js";
-// import API_KEY from "./key.js";
+// import API_KEY from "./config.js";
+import API_KEY from "./key.js";
 
 let baseUrl = "https://api.themoviedb.org/3/";
 let movieList = document.getElementById("movie-list");
@@ -97,7 +97,7 @@ function showMovies(data) {
     movieList.innerHTML += `
     <div class="movie">
     
-      <img id="movie-img" src="https://image.tmdb.org/t/p/w500/${poster_path}" alt="No Poster" onerror="this.src='/backupimage.jpg'" />
+      <img id="movie-img" src="https://image.tmdb.org/t/p/w500/${poster_path}"  onerror="this.src='https://via.placeholder.com/400';"/>
       <div class="movie-info">
           <h3>${name || title}</h3>
           <span class="${getColor(vote_average)}">${
