@@ -1,15 +1,10 @@
-//Create 2 more buttons that appear once the search function is called/when user searches for a movie
-//
-
-import API_KEY from "./config.js";
-
-
+// import API_KEY from "./config.js";
+import API_KEY from "./key.js";
 
 let baseUrl = "https://api.themoviedb.org/3/";
 let movieList = document.getElementById("movie-list");
 let api_URL = baseUrl + "/trending/all/day?api_key=" + API_KEY;
 let currentPage = 1;
-let buttonsDiv = document.getElementById("buttons-div");
 let previousPage = document.getElementById("previous-page");
 let nextPage = document.getElementById("next-page");
 let previousPageSearch = document.getElementById("previous-page-search");
@@ -19,7 +14,6 @@ nextPageSearch.style.display = "none";
 previousPageSearch.style.display = "none";
 
 function getMovies(url, currentPage) {
-  //Can add "&page=1" to the end of the url to get the first page of results
   url = url + "&page=" + currentPage;
   fetch(url)
     .then((response) => response.json())
@@ -69,6 +63,7 @@ nextPageSearch.addEventListener("click", () => {
     `search/movie?api_key=${API_KEY}&language=en-US&page=1&include_adult=false&query=${search}`;
   getMovies(search_url, currentPage);
 });
+
 previousPageSearch.addEventListener("click", () => {
   nextPageSearch.disabled = false;
   let search = document.getElementById("search-bar").value;
@@ -100,17 +95,20 @@ function showMovies(data) {
       return;
     }
     movieList.innerHTML += `
-    <div class="movie-info">
-    <img id="movie-img" src="https://image.tmdb.org/t/p/w500/${poster_path}" alt="No Poster" onerror="this.src='/backupimage.jpg'"/>
-        <div class='movie-title'>${name || title}
-        <span class="${getColor(vote_average)}">${
-      Math.round(vote_average * 100) / 100}
-      </span>
+    <div class="movie">
+    
+      <img id="movie-img" src="https://image.tmdb.org/t/p/w500/${poster_path}" alt="No Poster" onerror="this.src='/backupimage.jpg'" />
+      <div class="movie-info">
+          <h3>${name || title}</h3>
+          <span class="${getColor(vote_average)}">${
+      Math.round(vote_average * 100) / 100
+    }
+            </span>
       </div>
-    </div>
-        <div class="overview">
-        <h3>Overview</h3>
-        ${overview}
+      <div class="overview">
+          <h3>Overview</h3>
+          ${overview}
+      </div>
     </div>
     `;
   });
@@ -159,7 +157,6 @@ document
       );
     }
   });
-
 function getColor(vote) {
   if (vote >= 7) {
     return "green";
@@ -169,5 +166,8 @@ function getColor(vote) {
     return "red";
   }
 }
-console.log(getMovies(api_URL, currentPage));
 getMovies(api_URL, currentPage);
+setTimeout(() => {
+  let moviePosters = document.querySelectorAll(".movie");
+  console.log(moviePosters);
+}, 50);
