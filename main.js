@@ -1,5 +1,5 @@
-import API_KEY from "./config.js";
-// import API_KEY from "./key.js";
+// import API_KEY from "./config.js";
+import API_KEY from "./key.js";
 
 let baseUrl = "https://api.themoviedb.org/3/";
 let movieList = document.getElementById("movie-list");
@@ -89,15 +89,17 @@ function showMovies(data) {
   }
   addDelay(nextPageSearch, 250);
   data.forEach((movie) => {
+    let poster_link = "";
     const { id, title, name, vote_average, poster_path, overview } = movie;
     if (poster_path === null) {
-      console.log(title);
-      return;
+      poster_link = "https://via.placeholder.com/400";
+    } else {
+      poster_link = `https://image.tmdb.org/t/p/w500/${poster_path}`;
     }
     movieList.innerHTML += `
     <div class="movie">
     
-      <img id="movie-img" src="https://image.tmdb.org/t/p/w500/${poster_path}"  onerror="this.src='https://via.placeholder.com/400';"/>
+      <img id="movie-img" src="${poster_link}"/>
       <div class="movie-info">
           <h3>${name || title}</h3>
           <span class="${getColor(vote_average)}">${

@@ -37,7 +37,7 @@ body {
     left: 0;
     position: absolute;
     margin-left: 60px;
-    top:0;
+    top: 0;
     height: 100%;
 }
 
@@ -54,9 +54,11 @@ body {
     right: 0;
     padding: 1px;
 }
-#search-btn:hover,#home-btn:hover{
+
+#search-btn:hover, #home-btn:hover {
     color: #fff;
 }
+
 #search-bar {
     background-color: transparent;
     margin-right: 120px;
@@ -71,21 +73,27 @@ body {
     top: 25%;
     border: 3px solid var(--secondary-color);
 }
-#search-bar:focus{
-    background-color:var(--secondary-color) ;
+
+#search-bar:focus {
+    background-color: var(--secondary-color);
 }
-#next-page, #previous-page,#next-page-search,#previous-page-search {
+
+#buttons-div {
+    position: relative;
+    margin: auto;
+    width: fit-content;
+    bottom: 0;
+}
+
+#next-page, #previous-page, #next-page-search, #previous-page-search {
 
     background-color: var(--primary-color);
     border-style: dashed;
     border-radius: 5px;
     z-index: 4;
-    position: relative;
-    bottom: 0;
     color: white;
     padding: 8px;
     text-align: center;
-    margin-top: 10px;
     margin-bottom: 25px;
     margin-right: 10px;
     font-size: 18px;
@@ -145,7 +153,6 @@ main {
     justify-content: space-between;
     padding: 0.5rem 1rem 1rem;
     letter-spacing: 0.5px;
-    ;
 }
 
 .movie-info h3 {
@@ -178,9 +185,10 @@ main {
     transition: transform 0.2s ease-in;
 }
 
-.movie:hover #movie-img{
+.movie:hover #movie-img {
     filter: blur(1px);
 }
+
 .movie:hover .overview {
     transform: translateY(0);
 }
@@ -190,4 +198,8 @@ main {
     display: grid;
     flex-wrap: wrap;
     grid-template-columns: auto auto auto auto auto;
+}
+
+#movie-list h1 {
+    color: white;
 }
